@@ -32,4 +32,15 @@ isn <-as.data.table(isn.monthly)
 colnames(isn) <- c("Ymd","Days")
 D <- isn %>% filter(Ymd >="2014-01-01")
 ggplot(data=D,aes(x=Ymd,y=Days)) +geom_line() +geom_smooth(method="loess",col="blue") +
-  ggtitle("Monthly Mean Days with Sunspots: 2014-2019")
+    ggtitle("Monthly Mean Days with Sunspots: 2014-2019")
+##
+## Create monthly mean Sunpots
+##
+isn.xts <- xts(x = sidc1$Spots, order.by = sidc1$Ymd)
+isn.monthly <- apply.monthly(isn.xts, mean)
+monthly_mean <-as.data.table(isn.monthly)
+colnames(monthly_mean) <- c("Ymd","Spots")
+E <- monthly_mean %>% filter(Ymd >="2014-01-01")
+ggplot(data=E,aes(x=Ymd,y=Spots)) +geom_line() +geom_smooth(method="loess",col="blue") +
+    ggtitle("Monthly Rolling Average( Sunspots): 2014-2019")
+
