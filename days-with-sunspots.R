@@ -1,6 +1,10 @@
 library(tidyverse)
 library(data.table)
 library(xts)
+<<<<<<< HEAD
+library(prophet)
+=======
+>>>>>>> 1f5e476b3457ae9f7febd0e6613f40166b6129b7
 rm(list=ls())
 ##
 ## Begin SIDC daily numbers stuff
@@ -44,3 +48,27 @@ E <- monthly_mean %>% filter(Ymd >="2014-01-01")
 ggplot(data=E,aes(x=Ymd,y=Spots)) +geom_line() +geom_smooth(method="loess",col="blue") +
     ggtitle("Monthly Rolling Average( Sunspots): 2014-2019")
 
+<<<<<<< HEAD
+##
+## Prediction based on number of days per month
+isn.xts <- xts(x = sidc1$Vote, order.by = sidc1$Ymd)
+isn.monthly <- apply.monthly(isn.xts, sum)
+isn <-as.data.table(isn.monthly)
+colnames(isn) <- c("ds","y")
+##
+m <- prophet(seasonality.mode="multiplicative")
+m <- add_seasonality(m, name="cycle_11year", period=365.25 * 11,fourier.order=5)
+m <- fit.prophet(m, isn)
+future <- make_future_dataframe(m,periods=8000,freq="day")
+forecast <- predict(m, future)
+plot(m,forecast) +ggtitle("SIDC: Predict  Days with Sunspots per Month")
+##
+## Current min. 2014
+
+current_min <- forecast %>% filter(ds >="2014-01-01")
+ggplot(data=current_min,aes(x=ds,y=yhat)) +geom_line() + 
+  geom_line(data=current_min,aes(x=ds,y=yhat_lower,col="Lower")) +
+  geom_line(data=current_min,aes(x=ds,y=yhat_upper,col="Upper")) 
+  
+=======
+>>>>>>> 1f5e476b3457ae9f7febd0e6613f40166b6129b7
