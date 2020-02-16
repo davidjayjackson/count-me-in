@@ -4,7 +4,6 @@ library(xts)
 <<<<<<< HEAD
 library(prophet)
 =======
->>>>>>> 1f5e476b3457ae9f7febd0e6613f40166b6129b7
 rm(list=ls())
 ##
 ## Begin SIDC daily numbers stuff
